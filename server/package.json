@@ -1,0 +1,13 @@
+{
+    "name": "ably-hq-dp",
+    "author": "Srushtika Neelakantam",
+    "description": "Demo App for HQ style apps",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "ably": ">=1.0",
+        "express": "^4.16.3",
+        "cookie-parser": "^1.4.3"
+    }
+}

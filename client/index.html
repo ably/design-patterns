@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Trivia Quiz!</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="player.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 style="opacity: 1;">HQ Style apps
+                    <br/>Design pattern by Ably</h1>
+            </div>
+        </div>
+        <hr>
+        <!-- Waiting for other player -->
+        <div class="row" id="wait-for-player">
+            <div class="col-12">
+                <p>Be ready! Waiting for other player to join..</p>
+            </div>
+        </div>
+        <!-- Time remaining -->
+        <div class="row" id="timer-div">
+            <div class="col-6">
+                <p id="time-remaining">Time remaining: </p>
+                <p id="timer"></p>
+            </div>
+        </div>
+        <div class="row" id="stats">
+            <div class="col-6">
+                <p>Right answers so far:
+                    <span class="correct-sofar">0</span>
+                </p>
+                <p>Wrong answers so far:
+                    <span class="incorrect-sofar">0</span>
+                </p>
+                <p>Unanswered questions so far:
+                    <span class="skipped-sofar">0</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-dark" id="click-to-start">Click to start!</button>
+    <br>
+    <!-- Question area -->
+    <div class="container" id="question-area">
+        <div class="row">
+            <div class="col-12">
+                <p style="margin-top: 10px;">
+                    Question #
+                    <span id="index"></span>
+                </p>
+                <p style="margin-bottom: 0px;">
+                    <span id="current-question"></span>
+                </p>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-danger choices" id="0"></button>
+                <button class="btn btn-danger choices" id="1"></button>
+            </div>
+            <div class="col-12"></div>
+            <div class="col-12"></div>
+            <div class="col-12"></div>
+            <div class="col-12"></div>
+            <div class="col-12">
+                <button class="btn btn-danger choices" id="2"></button>
+                <button class="btn btn-danger choices" id="3"></button>
+            </div>
+        </div>
+    </div>
+    <!-- End game area, hidden until all questions are answered -->
+    <div class="container" id="end-area">
+        <div class="row">
+            <div class="col-12">
+                <h2>Game Over -
+                    <span class="winner"></span>
+                </h2>
+                <hr>
+                <p>Correct questions:
+                    <span class="correct-sofar"></span>
+                </p>
+                <p>Incorrect questions:
+                    <span class="incorrect-sofar"></span>
+                </p>
+                <p>Unanswered questions:
+                    <span class="skipped-sofar"></span>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-warning btn-block" id="play-again">Refresh page to play again!</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
