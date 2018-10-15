@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Read receipts design pattern using Ably
+    </title>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <section class="module">
+
+        <header class="top-bar">
+            <div class="left">
+                <span class="icon typicons-message"></span>
+                <h1 style="font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'">Realtime chat using Ably</h1>
+            </div>
+
+            <div class="right">
+                <span class="icon typicons-minus"></span>
+                <span class="icon typicons-times"></span>
+            </div>
+        </header>
+        <div style="height:400px; background: #e5e5e5">
+        <ul style="height:380px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'" class="discussion">
+        </ul>
+        </div>
+        <div style="height:20px" class="top-bar">
+                <div>
+                    <input  style="width: 80%" id="myMsg" placeholder="Type a message"/>
+                    <button onclick="sendMyMessage()" style="font-size:8px; padding:1px; width:15%; height:18px; background-color:#fff; color:grey" id="sendMessage">SEND</button>
+                </div>
+        </div>
+
+    </section>
+</body>
+
+</html>
