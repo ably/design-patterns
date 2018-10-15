@@ -2,7 +2,6 @@
 var Ably = require('ably')
 var numOfPlayers = 0;
 var index = -1;
-var clock;
 var currentQuestion = '';
 var clientAid = '';
 var clientBid = '';
@@ -69,23 +68,47 @@ var broadcastChannel = ably.channels.get("cluster-x-broadcast");
 var presenceChannel = ably.channels.get("cluster-x-presence");
 //---------------------
 
+
+///-------------------------------------------------------------------------
+
 /* Start the Express.js web server */
 const express = require('express'),
-    app = express()
+      app = express(),
+      cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
+
+/* Server static content from the root path to keep things simple */
 app.use('/', express.static(__dirname));
 
+/* Issue token requests to clients sending a request
+   to the /auth endpoint */
+/*app.get('/auth', function (req, res) {
+  var tokenParams = {
+      'clientId': uniqueId()
+    };
+  
 
-console.log('Entered SERVING AREA')
-presenceChannel.presence.subscribe('leave', (member) => {
-    clearInterval(clock);
-    console.log('One or more players have left')
-})
+  console.log("Authenticating client:", JSON.stringify(tokenParams));
+  rest.auth.createTokenRequest(tokenParams, function(err, tokenRequest) {
+    if (err) {
+      res.status(500).send('Error requesting token: ' + JSON.stringify(err));
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(tokenRequest));
+    }
+  });
+});
+*/
 
+app.get('/', function (req, res) {
+  
 presenceChannel.presence.subscribe('enter', (member) => {
     var memberData = JSON.stringify(member);
     var memberJSON = JSON.parse(memberData);
     console.log('Player with ClientId ' + member.clientId + ' entered');
     if (numOfPlayers === 0) {
+        //TODO CHECK CHANNEL NAME
         clientApublishChannel = ably.channels.get("PublishChannel" + member.clientId)
         clientAid = member.clientId
 
@@ -97,6 +120,7 @@ presenceChannel.presence.subscribe('enter', (member) => {
         numOfPlayers++
     }
     if (numOfPlayers === 2) {
+        //setStartActive = true;
         broadcastChannel.publish('startGameTick', {
             'startGame': true
         })
@@ -124,16 +148,10 @@ function declareWinner() {
 }
 
 function calcWinner(x, a, b) {
-    numOfPlayers = 0;
-    index = -1;
     if (x == 2) {
         if (a > b) {
             broadcastChannel.publish('winner', {
                 'winnerID': clientAid
-            })
-        } else if (a == b) {
-            broadcastChannel.publish('winner', {
-                'winnerID': -1
             })
         } else {
             broadcastChannel.publish('winner', {
@@ -146,8 +164,8 @@ function calcWinner(x, a, b) {
 }
 
 function updateQuestion() {
-    index++;
     timer();
+    index++;
     console.log('QINDEX' + index)
     if (index === (questions.length)) {
         console.log('*****Questions done in server')
@@ -173,8 +191,9 @@ function updateQuestion() {
         'choice3': currentChoices[3]
     })
 };
+var mycount = 0;
 function publishCorrectAnswer(index) {
-    console.log('Publishing Correct Answer' + index)
+    console.log('Publishing Correct Answer' + mycount++)
     var choiceNum = questions[index].correct
     broadcastChannel.publish('correctAnswer', {
         'index': index,
@@ -210,6 +229,11 @@ function timer() {
         };
     };
 };
-var listener = app.listen(process.env.PORT, function () {
-    console.log('Your app is listening on port ' + listener.address().port);
+  
+      res.status(200).send('All OK');
+    
+})
+
+var listener = app.listen(4001, function () {
+  console.log('Your app is listening on port 4001');
 });
